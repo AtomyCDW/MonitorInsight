@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjksrs.dao.IoMapper">
+  <select id="getIo" resultType="com.bjksrs.entity.Io">
+      select kb_read_persencond readKBPersencond,kb_wrtn_persencond wrtnKBPersencond,checktime
+      from detail_io_tps;
+  </select>
+
+    <select id="getTpsDynamic" resultType="com.bjksrs.entity.Io">
+        select kb_read_persencond readKBPersencond,kb_wrtn_persencond wrtnKBPersencond,checktime
+        from detail_io_tps where device = #{device} order by checktime asc limit 1;
+    </select>
+
+    <select id="getTpsByDevice" resultType="com.bjksrs.entity.Io">
+        select kb_read_persencond readKBPersencond,kb_wrtn_persencond wrtnKBPersencond,checktime
+        from detail_io_tps where device = #{device} order by checktime asc  limit 100;
+    </select>
+</mapper>

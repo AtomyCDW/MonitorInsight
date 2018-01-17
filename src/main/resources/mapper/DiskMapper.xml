@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjksrs.dao.DiskMapper">
+  <select id="getDisk" resultType="com.bjksrs.entity.Disk">
+      select * from detail_disk;
+  </select>
+
+    <!--<select id="getDiskByDevice" resultType="com.bjksrs.entity.Disk">
+        SELECT * FROM detail_disk
+        WHERE device=#{device} ORDER BY checktime DESC
+        limit (select to_number(disk_count,'999') FROM detail_disk WHERE device=#{device} LIMIT 1);
+    </select>-->
+
+
+    <select id="getDiskByDevice" resultType="com.bjksrs.entity.Disk">
+        SELECT * FROM detail_disk
+         WHERE "device"=#{device} ORDER BY "checktime" asc
+        limit (select to_number(disk_count,'999') FROM detail_disk WHERE "device"=#{device} LIMIT 1);
+    </select>
+</mapper>

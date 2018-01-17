@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务器监控</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/jquery.min.js"></script>
+    <script src="echarts.js"></script>
+</head>
+<body class="layui-layout-body" >
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll" >
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" id="menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">监控选项</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="index.html" >服务器基本信息</a></dd>
+                        <dd><a href="cpu.html" >cpu监控</a></dd>
+                        <dd><a href="memory.html" >内存监控</a></dd>
+                        <dd><a href="disk.html" >磁盘监控</a></dd>
+                        <dd><a href="io.html" >IO监控</a></dd>
+                        <dd><a href="load.html" >负载监控</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="height: auto">
+
+        <div class="layui-form" >
+            <div class="layui-inline">
+                <label class="layui-form-label">服务器选择</label>
+                <div class="layui-input-inline">
+                    <select name="device" lay-filter ="device" lay-verify="required" lay-search="">
+                        <option value="">请直接选择或搜索选择</option>
+                        <option value="10.0.0.42">42</option>
+                        <option value="10.0.0.98">98</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <table id='main' lay-filter="test" class="layui-table"  lay-filter="test">
+
+        </table>
+
+    </div>
+
+    <!-- <div class="layui-footer">
+         &lt;!&ndash; 底部固定区域 &ndash;&gt;
+         © ksrs.com - 所有
+     </div>-->
+</div>
+<script src="/layui/layui.all.js"></script>
+<script>
+
+    var device;
+    var form=layui.form;
+    form.on('select(device)', function(data){
+        device =data.value;
+        alert(device);
+        var table = layui.table;
+        table.render({
+            elem:'#main'
+            ,height:800
+            ,url:'/monitor/getDiskByDevice.do?device='+device
+            ,cols:[[
+                {field:'disk_filesystem',width:150,title:'文件系统/扇区'},
+                {field:'disk_size',width:120,title:'磁盘容量'},
+                {field:'disk_used',width:120,title:'已用容量'},
+                {field:'disk_avail',width:120,title:'可用/剩余容量'},
+                {field:'disk_used_percent',width:120,title:'已用容量百分比'},
+                {field:'disk_mounted_on',width:150,title:'挂载点'},
+                /*{field:'diskCount',width:120,title:'个数'},*/
+                {field:'device',width:120,title:'服务器'},
+                {field:'checktime',width:150,title:'检查时间'}
+            ]]
+        })
+    });
+
+
+</script>
+</body>
+</html>

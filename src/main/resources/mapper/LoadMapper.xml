@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjksrs.dao.LoadMapper">
+  <select id="getLoad" resultType="com.bjksrs.entity.Load">
+      select onemin_load oneMinAgoLoad,fivemin_load fiveMinAgoLoad,quartermin_load fifthMinAgoLoad,checktime
+      from detail_load;
+  </select>
+
+    <select id="getLoadDynamic" resultType="com.bjksrs.entity.Load">
+        select onemin_load oneMinAgoLoad,fivemin_load fiveMinAgoLoad,quartermin_load fifthMinAgoLoad,checktime
+        from detail_load where device=#{device} order by checktime asc limit 1;
+    </select>
+
+    <select id="getLoadByDevice" resultType="com.bjksrs.entity.Load">
+        select onemin_load oneMinAgoLoad,fivemin_load fiveMinAgoLoad,quartermin_load fifthMinAgoLoad,checktime
+        from detail_load where device=#{device} order by checktime asc limit 100;
+    </select>
+</mapper>

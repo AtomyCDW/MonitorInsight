@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务器监控</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/jquery.min.js"></script>
+</head>
+<body class="layui-layout-body" >
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!--<li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>-->
+            <!--<li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <!-- <li class="layui-nav-item">
+                 <a href="javascript:;">
+                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                     张三
+                 </a>
+                 <dl class="layui-nav-child">
+                     <dd><a href="">基本资料</a></dd>
+                     <dd><a href="">安全设置</a></dd>
+                 </dl>
+             </li>
+             <li class="layui-nav-item"><a href="login.html">退出</a></li>-->
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll" >
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" id="menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">监控选项</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="index.html" >服务器基本信息</a></dd>
+                        <dd><a href="cpu.html" >cpu监控</a></dd>
+                        <dd><a href="memory.html" >内存监控</a></dd>
+                        <dd><a href="disk.html" >磁盘监控</a></dd>
+                        <dd><a href="io.html" >IO监控</a></dd>
+                        <dd><a href="load.html" >负载监控</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="height: auto">
+
+
+        <table id='main' lay-filter="test" class="layui-table" lay-data="{fixed:true,height:500, url:'/monitor/getBasic.do', page:false,limit:150, limits:[150,300,450,600],id:'test'}" lay-filter="test">
+            <thead>
+            <tr>
+                <th  lay-data="{field:'device',event:'test', width:125}">服务器</th>
+                <th lay-data="{field:'linux_version',event:'test', width:300}">系统版本</th>
+                <th lay-data="{field:'proc_version',event:'test', width:300}">内核版本</th>
+                <th lay-data="{field:'checktime',event:'test', width:150}">检查时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<script src="/layui/layui.all.js">
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+
+
+    });
+    var table;
+    layui.use('table', function(){
+        table = layui.table;
+        //监听单元格事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+
+                layui.layer.open({
+                    type: 2,
+                    title: '详情信息',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['1000px', '500px'],
+                    content: '/basiclog.html?device='+data.device
+                });
+
+        });
+    });
+
+</script>
+</body>
+</html>

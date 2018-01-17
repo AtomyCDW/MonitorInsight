@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjksrs.dao.CpuMapper">
+    <select id="getCpu" resultType="com.bjksrs.entity.Cpu">
+        select * from detail_cpu where device = '10.0.0.98';
+    </select>
+
+    <select id="getCpuByDevice" resultType="com.bjksrs.entity.Cpu">
+        select * from detail_cpu where device = #{device} order by checktime asc limit 100;
+    </select>
+
+
+    <select id="getCpuDynamic" resultType="com.bjksrs.entity.Cpu">
+        select *  from detail_cpu where device = #{device} order by checktime asc limit 1;
+    </select>
+</mapper>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务器监控</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/jquery.min.js"></script>
+    <script src="echarts.js"></script>
+</head>
+<body class="layui-layout-body" >
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll" >
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" id="menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">监控选项</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="index.html" >服务器基本信息</a></dd>
+                        <dd><a href="cpu.html" >cpu监控</a></dd>
+                        <dd><a href="memory.html" >内存监控</a></dd>
+                        <dd><a href="disk.html" >磁盘监控</a></dd>
+                        <dd><a href="io.html" >IO监控</a></dd>
+                        <dd><a href="load.html" >负载监控</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="height: auto">
+
+        <div class="layui-form" >
+            <div class="layui-inline">
+                <label class="layui-form-label">服务器选择</label>
+                <div class="layui-input-inline">
+                    <select name="device" lay-filter ="device" lay-verify="required" lay-search="">
+                        <option value="">请直接选择或搜索选择</option>
+                        <option value="10.0.0.42">42</option>
+                        <option value="10.0.0.98">98</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="zhexian" style="width:950px;height: 400px;position: absolute;left:2%;top: 10%">
+
+        </div>
+
+
+    </div>
+
+</div>
+<script src="/layui/layui.all.js"></script>
+<script type="text/javascript">
+    var date1;
+    var myChart = echarts.init(document.getElementById('zhexian'),'macarons');
+    var checkTime=[];
+    var load1 = [];
+    var load2 = [];
+    var load3 = [];
+    var form = layui.form;
+    form.on('select(device)', function(data){
+        device =data.value;
+
+        $.ajax({
+            url:'/monitor/getLoadByDevice.do?device='+device,
+            dataType:'json',
+            async:false,
+            type:'post',
+            success:function (data) {
+
+                date1=data;
+
+            }
+
+        });
+        for(var i=0;i<date1.length;i++){
+            load1.push(date1[i].oneMinAgoLoad);
+            load2.push(date1[i].fiveMinAgoLoad);
+            load3.push(date1[i].fifthMinAgoLoad);
+            checkTime.push(date1[i].checktime);
+        }
+
+
+        myChart.setOption(option);
+    });
+
+
+
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '负载'
+        },
+        tooltip: {},
+        legend: {
+            data:['一分钟内平均负载','三分钟内平均负载','十五分钟内平均负载']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        calculable:true,
+        dataZoom : {
+            show : true,
+            realtime : true,
+            start : 20,
+            end : 80
+        },
+        xAxis: {
+            type: 'category',
+            data: checkTime
+        },
+        yAxis: {},
+        series: [
+            {
+                name: '一分钟内平均负载',
+                type: 'line',
+                smooth:true,
+                data: load1
+            },
+            {
+                name: '三分钟内平均负载',
+                type: 'line',
+                smooth:true,
+                data: load2
+            },
+            {
+                name: '十五分钟内平均负载',
+                type: 'line',
+                smooth:true,
+                data: load3
+            }
+        ]
+    };
+
+    var timeTicket;
+
+    timeTicket = setInterval(function(){
+
+
+
+        var checkTime2=[];
+        var load11 = [];
+        var load22 = [];
+        var load33 = [];
+        var date2;
+
+        $.ajax({
+            url:'/monitor/getLoadDynamic.do?device='+device,
+            dataType:'json',
+            async:false,
+            type:'post',
+            success:function (data) {
+                date2=data;
+            }
+        });
+
+        for(var i=0;i<date2.length;i++){
+            load11.push(date2[i].oneMinAgoLoad);
+            load22.push(date2[i].fiveMinAgoLoad);
+            load33.push(date2[i].fifthMinAgoLoad);
+            checkTime2.push(date2[i].checktime);
+        }
+
+
+
+        var da0 = option.series[0].data;
+        var da1 = option.series[1].data;
+        var da2 = option.series[2].data;
+        da0.shift();
+        da0.push(load11);
+        da1.shift();
+        da1.push(load22);
+        da2.shift();
+        da2.push(load33);
+
+        option.xAxis.data.shift();
+        option.xAxis.data.push(checkTime2);
+        myChart.setOption(option);
+    },5000);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/layui/jquery.min.js"></script>
+</head>
+<body>
+
+<div>
+
+
+    <table id='main' lay-filter="test" class="layui-table" lay-data="{fixed:true,height:500, url:/monitor/getBasic.do, id:'test'}" lay-filter="test">
+
+    </table>
+</div>
+<script src="/layui/layui.all.js">
+</script>
+<script>
+    var thisURL = document.URL;
+    var  getval =thisURL.split('?')[1];
+    var val= getval.split("=")[1];
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#main'
+            ,height: 315
+            ,url: '/monitor/getBasicByDevice.do?device='+val //数据接口
+           /* ,page: true //开启分页*/
+            ,cols: [[ //表头
+                {field:'sys_bit', width:120,title:'系统位数'}
+                ,{field:'cpu_name', width:120,title:'cpu型号'}
+                ,{field:'cpu_num', width:100,title:'逻辑cpu个数'}
+                ,{field:'cpu_cores', width:100,title:'物理cpu个数'}
+                ,{field:'cpu_physicalNum', width:100,title:'单个cpu核数'}
+                ,{field:'mem_type', width:100,title:'内存类型'}
+                ,{field:'mem_speed', width:125,title:'内存频率'}
+                ,{field:'mem_size', width:125,title:'内存大小(单条)'}
+                ,{field:'mem_manufacturer', width:125,title:'制造商'}
+                ,{field:'mem_serialnumber', width:125,title:'序列号'}
+                ,{field:'mem_count', width:125,title:'内存个数'}
+                ,{field:'disk_model', width:125,title:'硬盘/阵列卡型号'}
+                ,{field:'checktime', width:125,title:'检查时间'}
+
+            ]]
+        });
+    });
+</script>
+</body>
+</html>
