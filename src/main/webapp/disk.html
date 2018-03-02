@@ -60,6 +60,12 @@
         <table id='main' lay-filter="test" class="layui-table"  lay-filter="test">
 
         </table>
+        <div id="shanxing" style="width:950px;height: 400px;position: relative;left:2%;bottom: 0%">
+
+        </div>
+
+
+
 
     </div>
 
@@ -70,29 +76,81 @@
 </div>
 <script src="/layui/layui.all.js"></script>
 <script>
-
+    var date1;
+    var myChart = echarts.init(document.getElementById('shanxing'),'macarons');
     var device;
     var form=layui.form;
     form.on('select(device)', function(data){
         device =data.value;
-        alert(device);
+
         var table = layui.table;
         table.render({
             elem:'#main'
-            ,height:800
+
             ,url:'/monitor/getDiskByDevice.do?device='+device
             ,cols:[[
-                {field:'disk_filesystem',width:150,title:'文件系统/扇区'},
-                {field:'disk_size',width:120,title:'磁盘容量'},
-                {field:'disk_used',width:120,title:'已用容量'},
-                {field:'disk_avail',width:120,title:'可用/剩余容量'},
-                {field:'disk_used_percent',width:120,title:'已用容量百分比'},
+                {field:'disk_filesystem',width:200,title:'文件系统/扇区'},
+                {field:'disk_size',width:80,title:'磁盘容量'},
+                {field:'disk_used',width:80,title:'已用容量'},
+                {field:'disk_avail',width:100,title:'可用/剩余容量'},
+                {field:'disk_used_percent',width:100,title:'已用容量百分比'},
                 {field:'disk_mounted_on',width:150,title:'挂载点'},
                 /*{field:'diskCount',width:120,title:'个数'},*/
                 {field:'device',width:120,title:'服务器'},
-                {field:'checktime',width:150,title:'检查时间'}
+                {field:'checktime',width:200,title:'检查时间'}
             ]]
-        })
+        });
+
+        var dataShan=[];
+
+        $.ajax({
+            url:'/monitor/getDiskShanxing.do?device='+device,
+            dataType:'json',
+            async:false,
+            type:'post',
+            success:function (data) {
+                dataShan=data;
+            }
+        });
+        var option = {
+            title : {
+                text: '磁盘信息监控',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ["磁盘已用空间(单位:M)","磁盘可用空间(单位:M)"]
+            },
+            series : [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                       dataShan[0], dataShan[1]
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+
+
     });
 
 

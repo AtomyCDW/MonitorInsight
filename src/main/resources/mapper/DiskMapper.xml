@@ -18,7 +18,13 @@
 
     <select id="getDiskByDevice" resultType="com.bjksrs.entity.Disk">
         SELECT * FROM detail_disk
-         WHERE "device"=#{device} ORDER BY "checktime" asc
+         WHERE "device"=#{device} ORDER BY "checktime" desc
+        limit (select to_number(disk_count,'999') FROM detail_disk WHERE "device"=#{device} LIMIT 1);
+    </select>
+
+    <select id="getDiskShanxing" resultType="com.bjksrs.entity.Disk">
+        SELECT disk_filesystem,disk_size,disk_used FROM detail_disk
+        WHERE "device"=#{device} ORDER BY "checktime" desc
         limit (select to_number(disk_count,'999') FROM detail_disk WHERE "device"=#{device} LIMIT 1);
     </select>
 </mapper>

@@ -22,12 +22,8 @@ public class Io {
      @checkTime
      @device 服务器
      */
-    private String diskDevice;
-    private String tps;
-    private String readKBPersencond;
-    private String wrtnKBPersencond;
-    private String readKB;
-    private String wrtnKB;
+    private String bi;
+    private String bo;
     private String checktime;
     private String device;
 }

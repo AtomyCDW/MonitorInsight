@@ -10,11 +10,11 @@
     </select>
 
     <select id="getCpuByDevice" resultType="com.bjksrs.entity.Cpu">
-        select * from detail_cpu where device = #{device} order by checktime asc limit 100;
+        select * from detail_cpu where device = #{device} order by checktime desc limit 100;
     </select>
 
 
     <select id="getCpuDynamic" resultType="com.bjksrs.entity.Cpu">
-        select *  from detail_cpu where device = #{device} order by checktime asc limit 1;
+        select *  from detail_cpu where device = #{device} order by checktime desc limit 1;
     </select>
 </mapper>

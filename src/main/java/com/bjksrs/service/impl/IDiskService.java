@@ -25,4 +25,9 @@ public class IDiskService implements DiskService {
     public List<Disk> getDiskByDevice(String device) {
         return diskMapper.getDiskByDevice(device);
     }
+
+    @Override
+    public List<Disk> getDiskShanxing(String device) {
+        return diskMapper.getDiskShanxing(device);
+    }
 }

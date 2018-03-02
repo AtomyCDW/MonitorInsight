@@ -90,11 +90,12 @@
             }
 
         });
+        var arr=[];
+        arr = date1.reverse();
 
-
-        for(var i=0;i<date1.length;i++){
-            y1.push(date1[i].per);
-            checkTime.push(date1[i].checktime);
+        for(var i=0;i<arr.length;i++){
+            y1.push(arr[i].per);
+            checkTime.push(arr[i].checktime);
         }
 
         myChart.setOption(option);
@@ -107,7 +108,7 @@
     // 指定图表的配置项和数据
     var option = {
         title: {
-            text: '内存'
+            text: '内存使用率%'
         },
         tooltip: {},
         legend: {
@@ -185,7 +186,7 @@
         option.xAxis.data.shift();
         option.xAxis.data.push(checkTime2);
         myChart.setOption(option);
-    },5000);
+    },7000);
 
 </script>
 </body>

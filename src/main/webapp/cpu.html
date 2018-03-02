@@ -94,12 +94,13 @@
             }
 
         });
-        alert(date1[0].cpu_us);
-
-        for(var i=0;i<date1.length;i++){
-            user.push(date1[i].cpu_us);
-            sys.push(date1[i].cpu_sy);
-            checkTime.push(date1[i].checktime);
+       /* alert(date1[0].cpu_us);*/
+        var arr =[];
+        arr = date1.reverse();//反转数组，由于从库中取出为按照时间倒序
+        for(var i=0;i<arr.length;i++){
+            user.push(arr[i].cpu_us);
+            sys.push(arr[i].cpu_sy);
+            checkTime.push(arr[i].checktime);
         }
         myChart.setOption(option);
     });
@@ -190,7 +191,7 @@
         option.xAxis.data.shift();
         option.xAxis.data.push(checkTime2);
         myChart.setOption(option);//加载配置项
-    },60000);
+    },7000);
 
 
 

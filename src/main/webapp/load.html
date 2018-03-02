@@ -87,11 +87,14 @@
             }
 
         });
-        for(var i=0;i<date1.length;i++){
-            load1.push(date1[i].oneMinAgoLoad);
-            load2.push(date1[i].fiveMinAgoLoad);
-            load3.push(date1[i].fifthMinAgoLoad);
-            checkTime.push(date1[i].checktime);
+
+        var arr=[];
+        arr = date1.reverse();
+        for(var i=0;i<arr.length;i++){
+            load1.push(arr[i].oneMinAgoLoad);
+            load2.push(arr[i].fiveMinAgoLoad);
+            load3.push(arr[i].fifthMinAgoLoad);
+            checkTime.push(arr[i].checktime);
         }
 
 
@@ -200,7 +203,7 @@
         option.xAxis.data.shift();
         option.xAxis.data.push(checkTime2);
         myChart.setOption(option);
-    },5000);
+    },7000);
 
 </script>
 </body>

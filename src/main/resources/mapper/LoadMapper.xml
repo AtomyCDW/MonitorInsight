@@ -12,11 +12,11 @@
 
     <select id="getLoadDynamic" resultType="com.bjksrs.entity.Load">
         select onemin_load oneMinAgoLoad,fivemin_load fiveMinAgoLoad,quartermin_load fifthMinAgoLoad,checktime
-        from detail_load where device=#{device} order by checktime asc limit 1;
+        from detail_load where device=#{device} order by checktime desc limit 1;
     </select>
 
     <select id="getLoadByDevice" resultType="com.bjksrs.entity.Load">
         select onemin_load oneMinAgoLoad,fivemin_load fiveMinAgoLoad,quartermin_load fifthMinAgoLoad,checktime
-        from detail_load where device=#{device} order by checktime asc limit 100;
+        from detail_load where device=#{device} order by checktime desc limit 100;
     </select>
 </mapper>

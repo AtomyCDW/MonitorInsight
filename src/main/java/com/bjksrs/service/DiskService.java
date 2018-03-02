@@ -11,4 +11,5 @@ import java.util.List;
 public interface DiskService {
      List<Disk> getDisk();
      List<Disk> getDiskByDevice(String device);
+     List<Disk> getDiskShanxing(String device);
 }

@@ -228,17 +228,16 @@
     <finalName>${project.build.finalName}</finalName>
     <resources>
       <resource>
-        <directory>src/main/resources/config</directory>
-        <!--<filtering>true</filtering>-->
-        <excludes>
-          <exclude>**/env/**</exclude>
-        </excludes>
-        <targetPath>config</targetPath>
+        <directory>src/main/resources/mapper</directory>
+        <includes>
+          <include>*.xml</include>
+        </includes>
       </resource>
       <resource>
-        <directory>src/main/resources/env/${deploy.environment}</directory>
-        <filtering>true</filtering>
-        <targetPath>config</targetPath>
+        <directory>src/main/resources/</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
       </resource>
     </resources>
 

@@ -86,12 +86,13 @@
             }
 
         });
+        var arr=[];
+        arr = date1.reverse();
 
-
-        for(var i=0;i<date1.length;i++){
-            write.push(date1[i].wrtnKBPersencond);
-            read.push(date1[i].readKBPersencond);
-            checkTime.push(date1[i].checktime);
+        for(var i=0;i<arr.length;i++){
+            write.push(arr[i].bi);
+            read.push(arr[i].bo);
+            checkTime.push(arr[i].checktime);
         }
         myChart.setOption(option);
     });
@@ -104,7 +105,7 @@
         },
         tooltip: {},
         legend: {
-            data:['每秒读取的数据量','每秒写入的数据量']
+            data:['每秒从块设备接收到的块数量','每秒从块设备发送的块数量']
         },
         toolbox: {
             show: true,
@@ -132,13 +133,13 @@
         yAxis: {},
         series: [
             {
-                name: 'io读取百分比',
+                name: '每秒从块设备发送的块数量',
                 type: 'line',
                 smooth:true,
                 data: read
             },
             {
-                name: 'io写入百分比',
+                name: '每秒从块设备接收到的块数量',
                 type: 'line',
                 smooth:true,
                 data: write
@@ -166,8 +167,8 @@
         });
 
         for(var i=0;i<date2.length;i++){
-            read2.push(date2[i].readKBPersencond);
-            write2.push(date2[i].wrtnKBPersencond);
+            read2.push(date2[i].bo);
+            write2.push(date2[i].bi);
             checkTime2.push(date2[i].checktime);
         }
 
@@ -182,7 +183,7 @@
         option.xAxis.data.shift();
         option.xAxis.data.push(checkTime2);
         myChart.setOption(option);
-    },5000);
+    },7000);
 
 </script>
 

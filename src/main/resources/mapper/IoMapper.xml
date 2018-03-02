@@ -11,12 +11,12 @@
   </select>
 
     <select id="getTpsDynamic" resultType="com.bjksrs.entity.Io">
-        select kb_read_persencond readKBPersencond,kb_wrtn_persencond wrtnKBPersencond,checktime
-        from detail_io_tps where device = #{device} order by checktime asc limit 1;
+        select bi,bo,checktime
+        from detail_io where device = #{device} order by checktime desc limit 1;
     </select>
 
     <select id="getTpsByDevice" resultType="com.bjksrs.entity.Io">
-        select kb_read_persencond readKBPersencond,kb_wrtn_persencond wrtnKBPersencond,checktime
-        from detail_io_tps where device = #{device} order by checktime asc  limit 100;
+        select bi,bo,checktime
+        from detail_io where device = #{device} order by checktime desc  limit 100;
     </select>
 </mapper>
